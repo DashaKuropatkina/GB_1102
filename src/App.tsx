@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useCallback } from 'react';
+import { Form } from './components/Form/Form';
 import { MessageList } from './components/MessageList/MessageList';
 import { nanoid } from 'nanoid';
 
+export interface Message {
+    id: string;
+    text: string;
+    author: string;
+}
+
 const defaultMessages = [
     {
-        id: 1,
+        id: '1',
         author: 'Geekbrains',
         text: 'Welcome to the chat',
     },
 ];
 
-export const App = () => {
-    const [messages, setMessages] = useState(defaulMessages);
+export const App: FC = () => {
+    const [messages, setMessages] = useState<Message[]>(defaultMessages);
 
     useEffect(() => {
         if (messages.length && messages[messages.length - 1].author === 'User') {
@@ -30,7 +37,7 @@ export const App = () => {
     }, [messages]);
 
     const handleSendMessage = useCallback(
-        ({ text, author }) => {
+        ({ text, author }: { text: string; author: string }) => {
             setMessages((prevMessages) => [
                 ...prevMessages,
                 {
